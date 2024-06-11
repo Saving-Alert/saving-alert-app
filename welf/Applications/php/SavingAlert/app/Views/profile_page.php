@@ -42,7 +42,7 @@
 
 											<div class="my_profile_setting_input form-group">
 												<label for="propertyTitle">NIC</label>
-												<input type="text" class="form-control" id="prof_nic" name="prof_nic" value="<?php echo get_user_info(front_user_id())->name ?>">
+												<input type="text" class="form-control" id="prof_nic" name="prof_nic" value="<?php echo get_user_info(front_user_id())->nic ?>">
 											</div>
 											
 											<div class="my_profile_setting_input form-group">
@@ -85,11 +85,11 @@
 
 											<div class="my_profile_setting_input form-group">
 												<label for="propertyTitle">Blood Group</label>
-												<select class="form-control" id="blod_group" name="blod_group">
+												<select class="form-control" id="blood_group" name="blood_group">
 
 													<?php
 
-														$blood_arr = array("A+", "B+", "C+", "D+");
+														$blood_arr = array("O-", "O+", "A-", "A+", "B-", "B+", "AB-", "AB+");
 														$blood_type = get_user_info(front_user_id())->blood_type;
 
 														foreach($blood_arr as $blood){
@@ -121,7 +121,7 @@
 
 
 											<div class="my_profile_setting_input">
-												<button type="button" class="btn btn2 float-right" id="saveProfname">Save Personal Data</button>
+												<button type="submit" class="btn btn2 float-right" id="saveProfname">Save Personal Data</button>
 											</div>
 
 										</div>
