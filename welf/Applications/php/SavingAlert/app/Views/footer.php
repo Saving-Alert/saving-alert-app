@@ -24,7 +24,7 @@
 					  	<div class="row mt25 tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
 					  		<div class="col-lg-6 col-xl-6">
 					  			<div class="login_thumb">
-					  				<img class="img-fluid w100" src="<?php echo base_url(); ?>/assets/mimages/resource/" alt="login.jpg">
+					  				<img class="img-fluid w100" src="<?php echo base_url(); ?>/assets/mimages/resource/login.jpg" alt="login.jpg">
 					  			</div>
 					  		</div>
 					  		<div class="col-lg-6 col-xl-6">

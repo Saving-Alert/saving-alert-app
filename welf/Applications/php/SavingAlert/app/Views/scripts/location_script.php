@@ -53,7 +53,7 @@
         l_long = position.coords.longitude;
 
         $("#llat").html("");
-        $("#llat").html(llat);
+        $("#llat").html(l_lat);
         
         $("#llong").html("");
         $("#llong").html(l_long);
@@ -85,7 +85,7 @@
       });
 
       
-    }, 30000)
+    }, 300)
 
     
 

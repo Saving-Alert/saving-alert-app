@@ -215,7 +215,7 @@ class Profile extends BaseController
                 'nic' => $postData["nic"],
                 'dob' => $postData["dob"],
                 'gender' => $postData["gender"],
-                'blood_group' => $postData["blood_type"],
+                'blood_type' => $postData["blood_group"],
                 'weight' => $postData["weight"],
                 'height' => $postData["height"],
                 
