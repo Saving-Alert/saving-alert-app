@@ -43,12 +43,23 @@
 										<div class="col-lg-12">
 											<div class="my_profile_setting_textarea">
 												<label for="propertyDescription">Blood Group</label>
-												<select class="form-select" id="blod_group" name="blod_group">
+												<select class="form-select" id="blood_group" name="blood_group">
 													<option value="A+" selected>A+</option>
-													<option value="B+">B</option>
-													<option value="C+">B</option>
-													<option value="D+">C+</option>
+													<option value="A-">A-</option>
+													<option value="B+">B+</option>
+													<option value="B-">B-</option>
+													<option value="AB+">AB+</option>
+													<option value="AB-">AB-</option>
+													<option value="O+">O+</option>
+													<option value="O-">O-</option>
 													</select>
+											</div>
+										</div>
+
+										<div class="col-lg-4 col-xl-4">
+											<div class="my_profile_setting_input form-group">
+												<label for="formGroupExamplePrice">Quantity Needed (number of units)</label>
+												<input type="text" class="form-control"  id="qty" name="qty" value="">
 											</div>
 										</div>
 
@@ -57,6 +68,17 @@
 											<div class="my_profile_setting_textarea">
 												<label for="propertyDescription">Description</label>
 												<textarea class="form-control" id="dondescription" name="dondescription" rows="7"></textarea>
+											</div>
+										</div>
+
+										<div class="col-lg-12">
+											<div class="my_profile_setting_textarea">
+												<label for="propertyDescription">Urgency Level</label>
+												<select class="form-select" id="urgency_level" name="urgency_level">
+													<option value="Emergency" selected>Emergency</option>
+													<option value="Within 24 hours">Within 24 hours</option>
+													<option value="Within a week">Within a week</option>													
+													</select>
 											</div>
 										</div>
 
@@ -81,18 +103,7 @@
 											</div>
 										</div>
 
-
-										<div class="col-lg-6 col-xl-6" style="display:none;">
-											<div class="my_profile_setting_input ui_kit_select_search form-group">
-												<label>Type</label>
-												
-												<select class="selectpicker" data-live-search="true" data-width="100%" id="frofoodtypel" name="frofoodtypel" >
-													<option>Dry Foods</option>
-													<option>Coocked Foods</option>
-												</select>
-
-											</div>
-										</div>
+										
 
 										<div class="col-lg-3 col-xl-3">
 											<div class="my_profile_setting_input ui_kit_select_search form-group">
