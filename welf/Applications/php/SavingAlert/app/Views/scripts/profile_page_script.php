@@ -118,7 +118,7 @@
         let nic = $("#prof_nic").val();
         let dob = $("#prof_dob").val();
         let gender = $("#prof_gender").val();
-        let blood_group = $("#prof_gender").val();
+        let blood_group = $("#blood_group").val();
         let weight = $("#prof_weight").val();
         let height = $("#prof_height").val();
 
