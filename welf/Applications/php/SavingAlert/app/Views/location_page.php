@@ -1,9 +1,6 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/dashbord_navitaion.css">
 
 
-
-
-
 <!-- Our Dashbord -->
 <section class="our-dashbord dashbord bgc-f7 pb50">
     <div class="container-fluid">
@@ -11,7 +8,7 @@
 
             <div class="col-lg-3 col-xl-2 dn-992 pl0">
 
-                <div class="card" >
+                <div class="card">
                     <div class="card-header">
                         <a href="<?php echo base_url(); ?>/Account">Account</a>
                     </div>
@@ -29,7 +26,6 @@
                     </div>
 
 
-
                     <form id="submit_form" method="post">
                         <div class="col-lg-12">
                             <div class="my_dashboard_review">
@@ -39,7 +35,8 @@
 
                                         <div class="my_profile_setting_input form-group">
                                             <label for="propertyTitle">Name</label>
-                                            <input type="text" class="form-control" id="prof_name" name="prof_name" value="<?php echo get_user_info(front_user_id())->name ?>">
+                                            <input type="text" class="form-control" id="prof_name" name="prof_name"
+                                                   value="<?php echo get_user_info(front_user_id())->name ?>">
                                         </div>
 
                                         <div class="my_profile_setting_input form-group">
@@ -55,16 +52,7 @@
                                         </div>
 
 
-
-
-
                                     </div>
-
-
-
-
-
-
 
 
                                     <div class="col-xl-12">
@@ -99,7 +87,7 @@
             <div class="modal-body">
                 <div>
                     <label>Enter Six Digit OTP Code</label><br>
-                    <input type="text" id="otp_ins" >
+                    <input type="text" id="otp_ins">
 
                 </div>
             </div>

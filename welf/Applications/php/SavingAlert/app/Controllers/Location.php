@@ -1,19 +1,21 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Controllers\BaseController;
 
 class Location extends BaseController
 {
 
-    public function __construct(){
+    public function __construct()
+    {
         helper("shuja");
     }
 
     public function index()
     {
 
-        if(is_user_logged()){
+        if (is_user_logged()) {
 
             echo view('header');
             echo view('location_page');
@@ -26,48 +28,63 @@ class Location extends BaseController
 
     }
 
-    public function submit_location(){
-
-        if(is_user_logged()){
+    public function submit_location()
+    {
+        if (is_user_logged()) {
 
             $postData = $this->request->getRawInput(true);
 
-            if($postData['loc_lat'] != "" && $postData['loc_long'] != ""){
+            if (!empty($postData['loc_lat']) && !empty($postData['loc_long'])) {
 
                 $l_lat = $postData['loc_lat'];
                 $l_long = $postData['loc_long'];
 
                 echo $l_lat . " -- " . $l_long;
 
+                $db = \Config\Database::connect();
+                $builder = $db->table("front_users");
 
+                $data = [
+                    'loc_lat' => $l_lat,
+                    'loc_long' => $l_long,
+                    // Add other columns if necessary
+                ];
+
+                $builder->where("id", front_user_id()); // Ensure we update the logged-in user
+                $builder->update($data);
+
+                echo json_encode(array("success" => true));
+            } else {
+                echo json_encode(array("success" => false, "message" => "Latitude or Longitude is empty"));
             }
 
+        } else {
+            echo json_encode(array("success" => false, "message" => "User not logged in"));
         }
-
-
     }
 
 
-    public function verify_phone(){
+    public function verify_phone()
+    {
 
-        if(is_user_logged()){
+        if (is_user_logged()) {
 
             $postData = $this->request->getRawInput(true);
 
-            if($postData['phone_number'] != ""){
+            if ($postData['phone_number'] != "") {
 
-                if(strlen($postData['phone_number']) != 10){
+                if (strlen($postData['phone_number']) != 10) {
 
                     echo json_encode(array("success" => "invalid", "message" => "Invalid Number"));
                     return true;
 
                 }
 
-                if(user_phone_verified() && (get_phone_number() == $postData['phone_number'])){
+                if (user_phone_verified() && (get_phone_number() == $postData['phone_number'])) {
 
                     echo json_encode(array("success" => "true", "message" => "This Phone Number Is Already Verified"));
 
-                }else{
+                } else {
 
 
                     ///////////////////////////////////////////////////////////////
@@ -84,7 +101,7 @@ class Location extends BaseController
                     $query_sel = $buider_select->get();
 
 
-                    if($query_sel->getNumRows() >= 1){
+                    if ($query_sel->getNumRows() >= 1) {
 
                         $builder5 = $db4->table("front_users");
 
@@ -98,8 +115,7 @@ class Location extends BaseController
                         $builder5->update($datamn_L);
 
 
-
-                    }else{
+                    } else {
 
                         send_mobile_otp($postData["phone_number"]);
 
@@ -115,12 +131,11 @@ class Location extends BaseController
 
                 }
 
-            }else{
+            } else {
 
                 echo json_encode(array("success" => "invalid", "message" => "Invalid Number"));
 
             }
-
 
 
         }
@@ -129,27 +144,27 @@ class Location extends BaseController
     }
 
 
-    public function confirm_otp(){
+    public function confirm_otp()
+    {
 
         $postData = $this->request->getRawInput(true);
 
-        if(is_user_logged() && $postData["ot_otp_ot"] != ""){
+        if (is_user_logged() && $postData["ot_otp_ot"] != "") {
 
             $session = session();
 
-            if($session->get("mobile_otp") == $postData["ot_otp_ot"]){
+            if ($session->get("mobile_otp") == $postData["ot_otp_ot"]) {
 
                 $db4 = \Config\Database::connect();
 
                 $datamn = [
                     'phone_number' => $postData["phone_number"],
-                    'phone_verified'  => "Y",
+                    'phone_verified' => "Y",
                 ];
 
                 $builder4 = $db4->table("front_users");
                 $builder4->where('id', front_user_id());
                 $builder4->update($datamn);
-
 
 
                 //print_r($datamn);
@@ -202,16 +217,14 @@ class Location extends BaseController
                 //     }
 
 
-
                 // }
-
 
 
                 echo json_encode(array("success" => true));
 
                 return true;
 
-            }else{
+            } else {
 
                 echo json_encode(array("success" => false));
 
@@ -224,11 +237,12 @@ class Location extends BaseController
     }
 
 
-    public function save_name_s(){
+    public function save_name_s()
+    {
 
         $postData = $this->request->getRawInput(true);
 
-        if(is_user_logged() && $postData["my_name_is"] != ""){
+        if (is_user_logged() && $postData["my_name_is"] != "") {
 
             $db4 = \Config\Database::connect();
 
@@ -247,7 +261,7 @@ class Location extends BaseController
             return true;
 
 
-        }else{
+        } else {
             echo json_encode(array("success" => false));
         }
 
