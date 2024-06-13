@@ -23,6 +23,41 @@ $query = $builder->get();
     .feat_property .details .fp_footer {
         height: 120px !important;
     }
+
+    .btn-container {
+    width: 100%; /* or set a specific width */
+    display: flex;
+    justify-content: center; /* Center the button */
+    margin-top: 20px; /* Adjust the margin as needed */
+    padding: 10px;
+    }
+
+    .btn-primary {
+        background-color:#5f2a63 !important;
+        border-color: #370b3b !important;
+        color: #fff !important;
+        padding: 8px 20px !important;
+        font-size: 16px !important;
+        cursor: pointer !important;
+        
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3 !important;
+        border-color: #0056b3 !important;
+    }
+
+    .btn-primary:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5) !important;
+    }
+    @media (max-width: 576px) {
+    .btn-primary {
+        padding: 6px 12px;
+        font-size: 14px;
+    }
+}
+
+    
 </style>
 <!-- Listing Grid View -->
 <section class="our-listing bgc-f7 pb30-991">
@@ -453,6 +488,14 @@ $query = $builder->get();
                 </div>
 
             </div>
+
+            <div class="btn-container">
+                    <button class="btn btn-primary" id="btn_accept_blood" >Accept</button>
+                    <input type="hidden" id="attr_bdon_id">
+
+            </div>
+
+
 
         </div>
     </div>
