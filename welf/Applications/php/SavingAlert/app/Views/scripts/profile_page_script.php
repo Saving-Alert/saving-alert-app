@@ -121,12 +121,14 @@
         let blood_group = $("#blood_group").val();
         let weight = $("#prof_weight").val();
         let height = $("#prof_height").val();
+        let diseases = $("#diseases").val();
+        let health_status = $("#health_status").val();
 
 
         $.ajax({
             url 	: '<?php echo base_url();?>/Profile/save_name_s',
             type 	: 'post',
-            data 	: {"my_name_is": my_name_is, "nic":nic, "dob":dob, "gender":gender, "blood_group":blood_group, "weight":weight, "height":height},
+            data 	: {"my_name_is": my_name_is, "nic":nic, "dob":dob, "gender":gender, "blood_group":blood_group, "weight":weight, "height":height, "diseases":diseases, "health_status":health_status},
             dataType : "json",
             cache   : false,
             processData: true,

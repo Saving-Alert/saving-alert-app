@@ -218,7 +218,9 @@ class Profile extends BaseController
                 'blood_type' => $postData["blood_group"],
                 'weight' => $postData["weight"],
                 'height' => $postData["height"],
-                
+                'diseases' => $postData["diseases"],
+                'health_status'=> $postData["health_status"],
+
             ];
 
             $builder4 = $db4->table("front_users");

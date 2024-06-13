@@ -90,11 +90,11 @@
 													<?php
 
 														$blood_arr = array("O-", "O+", "A-", "A+", "B-", "B+", "AB-", "AB+");
-														$blood_type = get_user_info(front_user_id())->blood_type;
+                                                        $diseases = get_user_info(front_user_id())->blood_type;
 
 														foreach($blood_arr as $blood){
-															if($blood_type == $blood){
-																echo ' <option value="'.$blood_type.'" selected>'.$blood.'</option> ';
+															if($diseases == $blood){
+																echo ' <option value="'.$diseases.'" selected>'.$blood.'</option> ';
 															}else{
 																echo '<option value="'.$blood.'">'.$blood.'</option>';
 															}
@@ -118,9 +118,53 @@
 												<input type="text" class="form-control" id="prof_height" name="prof_height" value="<?php echo get_user_info(front_user_id())->height ?>">
 											</div>
 
+                                            <div class="my_profile_setting_input form-group">
+                                                <label for="propertyTitle">Diseases</label>
+                                                <select class="form-control" id="diseases" name="diseases">
 
+                                                    <?php
 
-											<div class="my_profile_setting_input">
+                                                    $blood_arr = array("HIV/AIDS", "Hepatitis B and C", "Syphilis and Gonorrhea", "Malaria", "Tuberculosis", "Cancer", "Heart Disease", "Chronic Kidney Disease", "Chronic Respiratory Diseases", "Autoimmune Diseases", "Diabetes", "Blood Disorders", "Prion Diseases", "Zika Virus", "COVID-19");
+                                                    $diseases = get_user_info(front_user_id())->diseases;
+
+                                                    foreach($blood_arr as $blood){
+                                                        if($diseases == $blood){
+                                                            echo ' <option value="'.$diseases.'" selected>'.$blood.'</option> ';
+                                                        }else{
+                                                            echo '<option value="'.$blood.'">'.$blood.'</option>';
+                                                        }
+
+                                                    }
+
+                                                    ?>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="my_profile_setting_input form-group">
+                                                <label for="propertyTitle">Health Status</label>
+                                                <select class="form-control" id="health_status" name="health_status">
+
+                                                    <?php
+
+                                                    $blood_arr = array("None", "Drug usage", "Smoking", "Drinking Alcohol", "More or All");
+                                                    $health_status = get_user_info(front_user_id())->health_status;
+
+                                                    foreach($blood_arr as $blood){
+                                                        if($health_status == $blood){
+                                                            echo ' <option value="'.$health_status.'" selected>'.$blood.'</option> ';
+                                                        }else{
+                                                            echo '<option value="'.$blood.'">'.$blood.'</option>';
+                                                        }
+
+                                                    }
+
+                                                    ?>
+
+                                                </select>
+                                            </div>
+
+                                            <div class="my_profile_setting_input">
 												<button type="submit" class="btn btn2 float-right" id="saveProfname">Save Personal Data</button>
 											</div>
 
