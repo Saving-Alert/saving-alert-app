@@ -26,7 +26,7 @@ class RequestDonation extends BaseController
                     echo view('scripts/request_jax.php');
 
                 }else{
-                    echo '<script>alert("You must be a registerd charitable org to submit donation requests"); history.back();</script>';
+                    echo '<script>alert("You must be a registerd member to submit donation requests"); history.back();</script>';
                 }
 
 
