@@ -206,7 +206,7 @@ class Profile extends BaseController
 
         $postData = $this->request->getRawInput(true);
 
-        if(is_user_logged() && $postData["my_name_is"] != "" && $postData["nic"] != "" && $postData["dob"] != "" && $postData["weight"] != "" && $postData["height"] != ""){
+        if(is_user_logged() && $postData["my_name_is"] != "" && $postData["nic"] != "" && $postData["dob"] != "" && $postData["weight"] != "" && $postData["height"] != "" && $postData["last_donate_date"] != "" && $postData["bmi_value"] != ""){
 
             $db4 = \Config\Database::connect();
 
@@ -220,6 +220,9 @@ class Profile extends BaseController
                 'height' => $postData["height"],
                 'diseases' => $postData["diseases"],
                 'health_status'=> $postData["health_status"],
+                'user_status'=> $postData["user_status"],
+                'last_donate_date'=> $postData["last_donate_date"],
+                'bmi_value'=> $postData["bmi_value"],
 
             ];
 
