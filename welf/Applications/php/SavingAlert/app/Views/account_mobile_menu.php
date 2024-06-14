@@ -13,7 +13,12 @@
 
         
         <li><a href="<?php echo base_url(); ?>/Manage"><span class="flaticon-heart"></span> Manage</a></li>
-        <li><a href="<?php echo base_url(); ?>/Tracking"><span class="flaticon-heart"></span> Tracking</a></li>
+        <?php
+        if(ami_reciver()){
+            echo '<li class="list-group-item"> <a href="'.base_url().'/Tracking">Tracking</a> </li> ';
+        }
+
+        ?>
         <li><a href="<?php echo base_url(); ?>/Profile"><span class="flaticon-magnifying-glass"></span> Profile</a></li>	
         <li><a href="<?php echo base_url(); ?>/Location"><span class="flaticon-magnifying-glass"></span> Location</a></li>
     </ul>
