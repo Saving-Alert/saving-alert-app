@@ -48,19 +48,15 @@
 
 												<h4>New Donation Claim</h4>
 
-
-
-
-
 												<table id="example1" class="table table-bordered table-striped" >
 													<thead>
 														<tr>
-														<th scope="col">Donation Title</th>
+														<th scope="col">Blood Type</th>
 														<th scope="col">Name</th>
 														<th scope="col">Phone</th>
 														<th scope="col">Lat</th>
 														<th scope="col">Long</th>
-														<th scope="col">#</th>
+														<th scope="col">Action</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -117,12 +113,15 @@
 
 																	echo '
 																		<tr>
-																			<td>'.$don_data->id.'</td>
+																			<td>'.$don_data->blood_group.'</td>
 																			<td>'.$fr_r_user_name .'</td>
 																			<td>'.$donator_info->phone_number.'</td>
 																			<td>'.$donator_info->loc_lat.'</td>
 																			<td>'.$donator_info->loc_long.'</td>
-																			<td> <button type="button" class="btn btn-submit btn_accept" attr_approvel_id="'.$don_data->id.'" style="background-color: cadetblue;">Accept</button> </td>
+																			<td> <button type="button" class="btn btn-submit btn_accept" attr_approvel_id="'.$row->id.'" style="background-color: cadetblue;">Accept</button>
+																			 <button type="button" class="btn btn-submit btn_reject" attr_approvel_id="'.$row->id. '" style="background-color: #e33805;">Reject</button>
+																			</td>
+																			
 																		</tr>
 																	
 																	';
