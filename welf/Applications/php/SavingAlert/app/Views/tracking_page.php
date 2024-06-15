@@ -109,7 +109,8 @@
 																	$donator_info = get_user_info($row->donator_id);
 
 																	// 																
-
+																	
+																	
 
 																	echo '
 																		<tr>
@@ -118,7 +119,7 @@
 																			<td>'.$donator_info->phone_number.'</td>
 																			<td>'.$donator_info->loc_lat.'</td>
 																			<td>'.$donator_info->loc_long.'</td>
-																			<td> <button type="button" class="btn btn-submit btn_accept" attr_approvel_id="'.$row->id.'" style="background-color: cadetblue;">Accept</button>
+																			<td> <button type="button" class="btn btn-submit btn_accept" attr_approvel_id="'.$row->id.'" attr_user_id="'.$donator_info->id.'" style="background-color: cadetblue;">Accept</button>
 																			 <button type="button" class="btn btn-submit btn_reject" attr_approvel_id="'.$row->id. '" style="background-color: #e33805;">Reject</button>
 																			</td>
 																			

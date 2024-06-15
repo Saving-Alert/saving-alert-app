@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use App\Controllers\BaseController;
 
-class Tracking extends BaseController
+class Tracking extends BaseControllerus
 {
 
     public function __construct(){
@@ -43,6 +43,7 @@ class Tracking extends BaseController
             $this->db->where('donator_id', $postData["user_id"]);
             $this->db->update('front_users', $data2);
         }
+
     }
 
     public function reject_donation()
