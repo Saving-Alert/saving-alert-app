@@ -11,7 +11,7 @@
     <li>
         <a href="<?php echo base_url() ?>/Plasma"><span class="title">Plasma</span></a>
         <ul>
-            <li><a href="#">What is plasma?</a></li>
+            <li><a href="<?php echo base_url(); ?>/Plasma">What is plasma?</a></li>
             <li><a href="#">Who can donate plasma</a>
                 <ul>
                     <li><a href="#"><span class="title">Plasma donors and disability</span></a></li>
