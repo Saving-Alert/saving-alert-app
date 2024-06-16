@@ -67,7 +67,28 @@ class Requests extends BaseController
             if($postData["have_have"] != ""){
                 $data = [];
 
-                $data["success"] = true;
+                $insertData = [
+                    'donation_id' => $postData["have_have"],
+                    'requester_id' => get_logged_in_user_id(), // Assuming a function that gets the logged-in user ID
+                    'donator_id' => get_donator_id($postData["have_have"]), // Assuming a function to get the donator ID
+                    'message' => "Please give it", // Example message
+                    'rdate' => date('Y-m-d'), // Current date
+                    'rtime' => date('H:i:s'), // Current time
+                    'listed_donation' => 'Y', // Example value
+                    'req_qty' => 1, // Example quantity
+                    'approved' => 'Y' // Example approval status
+                ];
+
+                $builder->insert($insertData);
+
+                if ($db->affectedRows() > 0) {
+                    $data["success"] = true;
+                    $data["message"] = "Donation accepted successfully.";
+                } else {
+                    $data["success"] = false;
+                    $data["message"] = "Failed to accept donation.";
+                }
+               // $data["success"] = true;
 
                 echo json_encode($data);
 

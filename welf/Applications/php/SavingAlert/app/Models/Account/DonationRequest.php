@@ -12,8 +12,9 @@ class DonationRequest extends Model{
         $description = $post_data["dondescription"];
         $blood_group = $post_data["blood_group"];
         //$food_type = $post_data["frofoodtypel"];
-        $quantity = "1";
+        $quantity = $post_data["qty"];
         $unit = "1";
+        $urgency_level = $post_data["urgency_level"];
         $main_area = $post_data["main_area"];
         $sub_area = $post_data["sub_area"];
 
@@ -23,7 +24,7 @@ class DonationRequest extends Model{
 
         $ret_data = [];
 
-        if(($title != "" && $description != "" && $main_area != "" && $sub_area != "" && $public_phone != "")){
+        if(($title != "" && $description != "" && $quantity != "" && $main_area != "" && $sub_area != "" && $public_phone != "")){
 
             $data_lm = [
                 'front_user_id' => $front_uid,
@@ -37,24 +38,30 @@ class DonationRequest extends Model{
                 'area_2' => $sub_area,
                 'qty' => $quantity,
                 'unit' => $unit,
+                'urgency_level' => $urgency_level,
                 'rdate' => date("Y-m-d"),
                 'rtime' => date("H:i:s"),
                 'active' => 'Y',
                 'public_phone' => $public_phone
+
             ];
 
             $this->db->table('donation_table')->insert($data_lm);
 
-            $ret_data["success"] = true;         
+            $last_ins_id = $this->db->insertID();
 
-        }else{ 
+            $ret_data["success"] = true;
+            $ret_data["last_ins_id"] = $last_ins_id;
 
-            $ret_data["success"] = false;  
+        }else{
+
+            $ret_data["success"] = false;
             if($title == "") $ret_data["dontitile"] = false;
             if($description == "") $ret_data["dondescription"] = false;
             //if($blood_group == "") $ret_data["blood_group"] = false;
+            if($title == "") $ret_data["qty"] = false;
             if($title == "") $ret_data["frofoodtypel"] = false;
-            if($title == "") $ret_data["main_area"] = false;    
+            if($title == "") $ret_data["main_area"] = false;
             if($title == "") $ret_data["sub_area"] = false;
             if($title == "") $ret_data["don_pub_phone"] = false;
 

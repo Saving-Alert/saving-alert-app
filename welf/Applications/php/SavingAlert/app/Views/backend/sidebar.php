@@ -3,7 +3,7 @@
     <!-- Brand Logo -->
     <a href="<?php echo base_url(); ?>/Backend/Dashboard" class="brand-link">
       <img src="<?php echo base_url(); ?>/backend/assets/dist/mimg/wadminlogo.png" alt="WelfareAro Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">WelfareAro</span>
+      <span class="brand-text font-weight-light">Saving Alert</span>
     </a>
 
     <!-- Sidebar -->
@@ -242,14 +242,14 @@
               <li class="nav-item">
                 <a href="<?php base_url() ?>/Backend/Approvels" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Approvels</p>
+                  <p>Approvals</p>
                 </a>
               </li>
 
               <li class="nav-item">
                 <a href="<?php base_url() ?>/Backend/ManageUsers" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Mange Users</p>
+                  <p>Manage Users</p>
                 </a>
               </li>
 

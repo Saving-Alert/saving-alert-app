@@ -46,21 +46,17 @@
 
 											<div class="col-md-12" > 
 
-												<h4>Your Claims</h4>
-
-
-
-
+												<h4>New Donation Claim</h4>
 
 												<table id="example1" class="table table-bordered table-striped" >
 													<thead>
 														<tr>
-														<th scope="col">Donation Title</th>
-														<th scope="col">District</th>
-														<th scope="col">City</th>
-														<th scope="col">Status</th>
-														<th scope="col">Donator Name</th>
-														<th scope="col">#</th>
+														<th scope="col">Blood Type</th>
+														<th scope="col">Name</th>
+														<th scope="col">Phone</th>
+														<th scope="col">Lat</th>
+														<th scope="col">Long</th>
+														<th scope="col">Action</th>
 														</tr>
 													</thead>
 													<tbody>
@@ -82,15 +78,15 @@
 
 																	$status_s = "";
 
-																	if($row->approved == "Y"){
-																		$phone = 'Donatot Contact : ' . get_user_info($row->donator_id)->phone_number;
+																	// if($row->approved == "Y"){
+																	// 	$phone = 'Donatot Contact : ' . get_user_info($row->donator_id)->phone_number;
 
-																		$status_s = "Claimed To You";
-																	}
+																	// 	$status_s = "Claimed To You";
+																	// }
 
-																	if($row->approved == "O"){
-																		$status_s = "Claimed By Another User";
-																	}
+																	// if($row->approved == "O"){
+																	// 	$status_s = "Claimed By Another User";
+																	// }
 
 																	
 																	if($row->approved == "R"){
@@ -108,14 +104,25 @@
 																	$fr_r_user_name = strlen($fr_r_user_name) == 0 ? "User-00".$row->requester_id : $fr_r_user_name;
 																	
 																	$don_data = get_donation_data($row->donation_id);
+
+
+																	$donator_info = get_user_info($row->donator_id);
+
+																	// 																
+																	
+																	
+
 																	echo '
 																		<tr>
-																			<td>'.$don_data->title.'</td>
-																			<td>'.$don_data->area_1.'</td>
-																			<td>'.$don_data->area_2.'</td>
-																			<td>'.$status_s.'</td>
-																			<td>'.$fr_r_user_name.'</td>
-																			<td>'.$phone.'</td>
+																			<td>'.$don_data->blood_group.'</td>
+																			<td>'.$fr_r_user_name .'</td>
+																			<td>'.$donator_info->phone_number.'</td>
+																			<td>'.$donator_info->loc_lat.'</td>
+																			<td>'.$donator_info->loc_long.'</td>
+																			<td> <button type="button" class="btn btn-submit btn_accept" attr_approvel_id="'.$row->id.'" attr_user_id="'.$donator_info->id.'" style="background-color: cadetblue;">Accept</button>
+																			 <button type="button" class="btn btn-submit btn_reject" attr_approvel_id="'.$row->id. '" style="background-color: #e33805;">Reject</button>
+																			</td>
+																			
 																		</tr>
 																	
 																	';
