@@ -64,6 +64,40 @@ class Location extends BaseController
     }
 
 
+    public function submit_location_nologin(){
+        $postData = $this->request->getRawInput(true);
+
+        if (!empty($postData['loc_lat']) && !empty($postData['loc_long']) && !empty($postData['get_uuid']) ) {
+
+            $l_lat = $postData['loc_lat'];
+            $l_long = $postData['loc_long'];
+
+            $uu_id = $postData['get_uuid'];
+
+
+            echo $l_lat . " -- " . $l_long;
+
+            $db = \Config\Database::connect();
+            $builder = $db->table("front_users");
+
+            $data = [
+                'loc_lat' => $l_lat,
+                'loc_long' => $l_long,
+                // Add other columns if necessary
+            ];
+
+            $builder->where("id", $uu_id); // Ensure we update the logged-in user
+            $builder->update($data);
+
+            echo json_encode(array("success" => true));
+
+        }
+
+
+    }
+
+
+
     public function verify_phone()
     {
 

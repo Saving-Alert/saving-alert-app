@@ -48,17 +48,20 @@ class DonationRequest extends Model{
 
             $this->db->table('donation_table')->insert($data_lm);
 
-            $ret_data["success"] = true;         
+            $last_ins_id = $this->db->insertID();
 
-        }else{ 
+            $ret_data["success"] = true;
+            $ret_data["last_ins_id"] = $last_ins_id;
 
-            $ret_data["success"] = false;  
+        }else{
+
+            $ret_data["success"] = false;
             if($title == "") $ret_data["dontitile"] = false;
             if($description == "") $ret_data["dondescription"] = false;
             //if($blood_group == "") $ret_data["blood_group"] = false;
             if($title == "") $ret_data["qty"] = false;
             if($title == "") $ret_data["frofoodtypel"] = false;
-            if($title == "") $ret_data["main_area"] = false;    
+            if($title == "") $ret_data["main_area"] = false;
             if($title == "") $ret_data["sub_area"] = false;
             if($title == "") $ret_data["don_pub_phone"] = false;
 

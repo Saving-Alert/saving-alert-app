@@ -3,7 +3,7 @@
 namespace App\Controllers;
 use App\Controllers\BaseController;
 
-class Tracking extends BaseControllerus
+class Tracking extends BaseController
 {
 
     public function __construct(){

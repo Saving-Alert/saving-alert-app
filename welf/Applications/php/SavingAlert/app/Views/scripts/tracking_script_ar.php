@@ -19,7 +19,7 @@
                 cache: false,
                 processData: true,
                 success: function (data) {
-                    alert("AAAAAAAAAAAAAApproved");
+                    alert("Approved");
                 }
 
                 });
@@ -29,10 +29,7 @@
 
     })
 
-
-
-
-$()document.on("click", "#333333333333333333", functtttttttion(){
+$()document.on("click", "#", function(){
 
     url: '<?php echo base_url();?>/Tracking/reject_donation',
                 type: 'post',
@@ -41,7 +38,7 @@ $()document.on("click", "#333333333333333333", functtttttttion(){
                 cache: false,
                 processData: true,
                 success: function (data) {
-                    alert("AAAAAAAAAAAAAApRejectedproved");
+                    alert("ApRejectedproved");
                 }
 
                 });
