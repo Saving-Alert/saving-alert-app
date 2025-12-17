@@ -23,7 +23,10 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = 'https://welfarearo.cf/';
+public string $baseURL = 'http://savingalert.local/';
+
+public string $encryptionKey = '...';
+
 
     /**
      * --------------------------------------------------------------------------
@@ -36,7 +39,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $indexPage = 'index.php';
+    public $indexPage = '';
 
     /**
      * --------------------------------------------------------------------------
