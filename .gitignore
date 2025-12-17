@@ -1,2 +1,16 @@
 .idea/
 welf/Applications/php/SavingAlert/writable/
+
+# IDE / Editor files
+.idea/
+.vscode/
+
+# CodeIgniter writable files
+Applications/php/SavingAlert/writable/
+
+# Environment files
+.env
+
+# OS files
+Thumbs.db
+.DS_Store
