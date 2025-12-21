@@ -2,52 +2,72 @@
 
 namespace Config;
 
-// Create a new instance of our RouteCollection class.
+use CodeIgniter\Config\Services;
+
 $routes = Services::routes();
 
-// Load the system's routing file first, so that the app and ENVIRONMENT
-// can override as needed.
+/*
+|--------------------------------------------------------------------------
+| System Routes
+|--------------------------------------------------------------------------
+*/
 if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
     require SYSTEMPATH . 'Config/Routes.php';
 }
 
 /*
- * --------------------------------------------------------------------
- * Router Setup
- * --------------------------------------------------------------------
- */
+|--------------------------------------------------------------------------
+| Router Setup
+|--------------------------------------------------------------------------
+*/
 $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
-$routes->setAutoRoute(true);
+$routes->setAutoRoute(false); // 🔒 IMPORTANT
 
 /*
- * --------------------------------------------------------------------
- * Route Definitions
- * --------------------------------------------------------------------
- */
-
-// We get a performance increase by specifying the default
-// route since we don't have to scan directories.
-$routes->get('/', 'Home::index'); // for homepage
-$routes->get('users', 'UserController::list'); // example
-
+|--------------------------------------------------------------------------
+| Public Pages
+|--------------------------------------------------------------------------
+*/
+$routes->get('/', 'Home::index');
+$routes->get('about', 'About::index');
+$routes->get('contact', 'Contact::index');
+$routes->get('terms', 'Terms::index');
+$routes->get('privacy', 'Privacy::index');
 
 /*
- * --------------------------------------------------------------------
- * Additional Routing
- * --------------------------------------------------------------------
- *
- * There will often be times that you need additional routing and you
- * need it to be able to override any defaults in this file. Environment
- * based routes is one such time. require() additional route files here
- * to make that happen.
- *
- * You will have access to the $routes object within that file without
- * needing to reload it.
- */
+|--------------------------------------------------------------------------
+| Blood Requests
+|--------------------------------------------------------------------------
+*/
+$routes->get('requests', 'Requests::index');
+$routes->post('requests/show', 'Requests::show_req');
+$routes->post('requests/accept', 'Requests::accept_blood');
+
+/*
+|--------------------------------------------------------------------------
+| Donations
+|--------------------------------------------------------------------------
+*/
+$routes->get('donations', 'Donation::index');
+$routes->post('donations/submit', 'SubmitDonation::index');
+
+/*
+|--------------------------------------------------------------------------
+| Auth
+|--------------------------------------------------------------------------
+*/
+$routes->get('login', 'Login::index');
+$routes->get('logout', 'Logout::index');
+
+/*
+|--------------------------------------------------------------------------
+| Environment Routes
+|--------------------------------------------------------------------------
+*/
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }

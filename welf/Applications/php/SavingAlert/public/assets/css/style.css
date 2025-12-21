@@ -16417,4 +16417,23 @@ button.gm-ui-hover-effect:focus {
   margin-right: 10px;
 }
 
+/* ------------------------------
+   Header Logo Size Control
+--------------------------------*/
+
+/* Mobile menu logo */
+.nav_logo_img {
+    max-height: 35px;
+    width: auto;
+    margin-top: 8px;
+}
+
+/* Desktop navbar logos */
+.logo1,
+.logo2 {
+    max-height: 45px;
+    width: auto;
+    margin-top: 6px;
+}
+
 

@@ -10,7 +10,7 @@
     </li>
 
     <li>
-        <a href="<?php echo base_url() ?>/Requests"><span class="title">Blood Requests</span></a>
+        <a href="<?= base_url('requests') ?>"><span class="title">Blood Requests</span></a>
 
     </li>
 
