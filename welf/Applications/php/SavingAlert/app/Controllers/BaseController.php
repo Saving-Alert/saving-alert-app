@@ -3,8 +3,6 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
-use CodeIgniter\HTTP\CLIRequest;
-use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Session\Session;
@@ -12,12 +10,26 @@ use Psr\Log\LoggerInterface;
 
 class BaseController extends Controller
 {
-    protected $request;
-
-    protected $helpers = [];
-
+    /**
+     * Session instance
+     */
     protected Session $session;
 
+    /**
+     * Helpers that will be loaded automatically
+     */
+    protected $helpers = [
+        'url',
+        'form',
+        'auth',
+        'user',
+        'donation',
+        'notification'// your custom helper
+    ];
+
+    /**
+     * Initialize controller
+     */
     public function initController(
         RequestInterface $request,
         ResponseInterface $response,
@@ -25,6 +37,7 @@ class BaseController extends Controller
     ) {
         parent::initController($request, $response, $logger);
 
-        $this->session = \Config\Services::session();
+        // Load session once for all controllers
+        $this->session = service('session');
     }
 }
