@@ -1,257 +1,141 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Controllers\BaseController;
 
 class Location extends BaseController
 {
-
-    public function __construct(){
-        helper("shuja");
+    public function __construct()
+    {
+        helper('shuja');
     }
 
     public function index()
     {
-
-        if(is_user_logged()){
-
-            echo view('header');
-            echo view('location_page');
-            echo view('footer');
-            echo view('scripts/submit_jax.php');
-            echo view('scripts/location_script.php');
-
+        if (!is_user_logged()) {
+            return redirect()->to('/login');
         }
 
-
+        echo view('header');
+        echo view('location_page');
+        echo view('footer');
+        echo view('scripts/submit_jax.php');
+        echo view('scripts/location_script.php');
     }
 
-    public function submit_location(){
-
-        if(is_user_logged()){
-
-            $postData = $this->request->getRawInput(true);
-
-            if($postData['loc_lat'] != "" && $postData['loc_long'] != ""){
-
-                $l_lat = $postData['loc_lat'];
-                $l_long = $postData['loc_long'];
-
-                echo $l_lat . " -- " . $l_long;
-
-
-            }
-
+    public function submit_location()
+    {
+        if (!is_user_logged()) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Unauthorized']);
         }
 
+        $postData = $this->request->getPost();
+        $lat      = $postData['loc_lat'] ?? null;
+        $long     = $postData['loc_long'] ?? null;
 
-    }
-
-
-    public function verify_phone(){
-
-        if(is_user_logged()){
-
-            $postData = $this->request->getRawInput(true);
-
-            if($postData['phone_number'] != ""){
-
-                if(strlen($postData['phone_number']) != 10){
-
-                    echo json_encode(array("success" => "invalid", "message" => "Invalid Number"));
-                    return true;
-
-                }
-
-                if(user_phone_verified() && (get_phone_number() == $postData['phone_number'])){
-
-                    echo json_encode(array("success" => "true", "message" => "This Phone Number Is Already Verified"));
-
-                }else{
-
-
-                    ///////////////////////////////////////////////////////////////
-
-                    $db4 = \Config\Database::connect();
-
-                    $buider_select = $db4->table("front_users");
-
-                    $buider_select->select("*");
-
-                    $buider_select->where("phone_number", $postData["phone_number"]);
-                    $buider_select->where("dynamic_login", "N");
-
-                    $query_sel = $buider_select->get();
-
-
-                    if($query_sel->getNumRows() >= 1){
-
-                        $builder5 = $db4->table("front_users");
-
-                        $datamn_L = [
-
-                            'dynamic_login' => "N",
-
-                        ];
-
-                        $builder5->where("id", front_user_id());
-                        $builder5->update($datamn_L);
-
-
-
-                    }else{
-
-                        send_mobile_otp($postData["phone_number"]);
-
-                        echo json_encode(array("success" => "otp", "message" => "OTP Sent To : " . $postData['phone_number']));
-
-                        return true;
-
-                    }
-
-
-                    ////////////////////////////////////////////////////////////////
-
-
-                }
-
-            }else{
-
-                echo json_encode(array("success" => "invalid", "message" => "Invalid Number"));
-
-            }
-
-
-
+        if (empty($lat) || empty($long)) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Invalid coordinates']);
         }
 
-
+        // Currently just echoing values (original behavior)
+        echo $lat . ' -- ' . $long;
     }
 
-
-    public function confirm_otp(){
-
-        $postData = $this->request->getRawInput(true);
-
-        if(is_user_logged() && $postData["ot_otp_ot"] != ""){
-
-            $session = session();
-
-            if($session->get("mobile_otp") == $postData["ot_otp_ot"]){
-
-                $db4 = \Config\Database::connect();
-
-                $datamn = [
-                    'phone_number' => $postData["phone_number"],
-                    'phone_verified'  => "Y",
-                ];
-
-                $builder4 = $db4->table("front_users");
-                $builder4->where('id', front_user_id());
-                $builder4->update($datamn);
-
-
-
-                //print_r($datamn);
-
-                ///////////////////////////////////////////////////////////////////////////////
-
-
-                // $buider_select = $db4->table("front_users");
-
-                // $buider_select->select("*");
-
-                // $buider_select->where("phone_number", $postData["phone_number"]);
-                // $buider_select->where("dynamic_login", "N");
-
-                // $query_sel = $buider_select->get();
-
-
-                // if($query_sel->getNumRows() >= 1){
-
-                //     $builder5 = $db4->table("front_users");
-
-                //     $datamn_L = [
-
-                //         'dynamic_login' => "N",
-
-                //     ];
-
-                //     $builder5->where("phone_number", $postData["phone_number"]);
-                //     $builder5->update($datamn_L);
-
-
-                //     ////Delete Donations /// Delete Claims
-
-                //     foreach ($query_sel->getResult() as $row) {
-
-                //         $builder6 = $db4->table("donation_table");
-
-                //         $datamn6 = [
-                //                 'active'  => "D",
-                //         ];
-
-                //         $builder6->where('front_user_id', $row->id);
-
-                //         $builder6->update($datamn6);
-
-
-                //         // $builder7 = $db4->table("front_claims");
-
-
-                //     }
-
-
-
-                // }
-
-
-
-                echo json_encode(array("success" => true));
-
-                return true;
-
-            }else{
-
-                echo json_encode(array("success" => false));
-
-                return true;
-
-            }
-
+    public function verify_phone()
+    {
+        if (!is_user_logged()) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Unauthorized']);
         }
 
-    }
+        $postData = $this->request->getPost();
+        $phone    = $postData['phone_number'] ?? null;
 
-
-    public function save_name_s(){
-
-        $postData = $this->request->getRawInput(true);
-
-        if(is_user_logged() && $postData["my_name_is"] != ""){
-
-            $db4 = \Config\Database::connect();
-
-            $datamn = [
-                'name' => $postData["my_name_is"],
-
-            ];
-
-            $builder4 = $db4->table("front_users");
-            $builder4->where('id', front_user_id());
-            $builder4->update($datamn);
-
-
-            echo json_encode(array("success" => true));
-
-            return true;
-
-
-        }else{
-            echo json_encode(array("success" => false));
+        if (empty($phone) || strlen($phone) !== 10) {
+            return $this->response->setJSON([
+                'success' => 'invalid',
+                'message' => 'Invalid Number'
+            ]);
         }
 
+        if (user_phone_verified() && get_phone_number() === $phone) {
+            return $this->response->setJSON([
+                'success' => 'true',
+                'message' => 'This Phone Number Is Already Verified'
+            ]);
+        }
 
+        // Check if phone exists for non-dynamic login users
+        $db      = \Config\Database::connect();
+        $builder = $db->table('front_users');
+        $builder->where([
+            'phone_number'  => $phone,
+            'dynamic_login' => 'N'
+        ]);
+
+        if ($builder->countAllResults() > 0) {
+            $db->table('front_users')
+               ->where('id', front_user_id())
+               ->update(['dynamic_login' => 'N']);
+
+            return $this->response->setJSON(['success' => true, 'message' => 'Phone already in use']);
+        }
+
+        send_mobile_otp($phone);
+
+        return $this->response->setJSON([
+            'success' => 'otp',
+            'message' => 'OTP Sent To: ' . $phone
+        ]);
     }
 
+    public function confirm_otp()
+    {
+        if (!is_user_logged()) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Unauthorized']);
+        }
+
+        $postData = $this->request->getPost();
+        $otp      = $postData['ot_otp_ot'] ?? null;
+        $phone    = $postData['phone_number'] ?? null;
+
+        if (empty($otp)) {
+            return $this->response->setJSON(['success' => false, 'message' => 'OTP missing']);
+        }
+
+        if (session()->get('mobile_otp') !== $otp) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Invalid OTP']);
+        }
+
+        $db = \Config\Database::connect();
+        $db->table('front_users')
+           ->where('id', front_user_id())
+           ->update([
+               'phone_number'   => $phone,
+               'phone_verified' => 'Y'
+           ]);
+
+        return $this->response->setJSON(['success' => true]);
+    }
+
+    public function save_name_s()
+    {
+        if (!is_user_logged()) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Unauthorized']);
+        }
+
+        $postData = $this->request->getPost();
+        $name     = $postData['my_name_is'] ?? null;
+
+        if (empty($name)) {
+            return $this->response->setJSON(['success' => false, 'message' => 'Name missing']);
+        }
+
+        $db = \Config\Database::connect();
+        $db->table('front_users')
+           ->where('id', front_user_id())
+           ->update(['name' => $name]);
+
+        return $this->response->setJSON(['success' => true]);
+    }
 }

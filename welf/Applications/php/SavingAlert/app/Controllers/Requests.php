@@ -2,8 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Controllers\BaseController;
+
 class Requests extends BaseController
 {
+    /**
+     * Load blood requests page
+     */
     public function index()
     {
         return view('header')
@@ -13,8 +18,16 @@ class Requests extends BaseController
             . view('scripts/request_page_script');
     }
 
+    /**
+     * AJAX: Show single blood request details
+     */
     public function show_req()
     {
+        // Allow only AJAX requests
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(403);
+        }
+
         if (!is_user_logged()) {
             return $this->response->setJSON([
                 'success' => false,
@@ -22,7 +35,8 @@ class Requests extends BaseController
             ]);
         }
 
-        $donationId = $this->request->getPost('have_have');
+        // donation_have = donation ID
+        $donationId = $this->request->getPost('donation_have');
 
         if (!$donationId) {
             return $this->response->setJSON([
@@ -31,7 +45,7 @@ class Requests extends BaseController
             ]);
         }
 
-        $donation = get_donation_data((int)$donationId);
+        $donation = get_donation_data((int) $donationId);
         if (!$donation) {
             return $this->response->setJSON([
                 'success' => false,
@@ -47,26 +61,34 @@ class Requests extends BaseController
             ]);
         }
 
+        // Display name fallback
         $username = empty($user->name)
             ? 'User-00' . $user->id
             : $user->name;
 
         return $this->response->setJSON([
-            'success'      => true,
-            'pub_phone'    => $donation->public_phone,
-            'title'        => $donation->title,
-            'blood_group'  => $donation->blood_group,
-            'desc'         => $donation->description,
-            'district'     => $donation->area_1,
-            'city'         => $donation->area_2,
-            'uname'        => $username,
-            'date_r'       => $donation->rdate,
-            'time_r'       => $donation->rtime
+            'success'     => true,
+            'pub_phone'   => $donation->public_phone,
+            'title'       => $donation->title,
+            'blood_group' => $donation->blood_group,
+            'desc'        => $donation->description,
+            'district'    => $donation->area_1,
+            'city'        => $donation->area_2,
+            'uname'       => $username,
+            'date_r'      => $donation->rdate,
+            'time_r'      => $donation->rtime
         ]);
     }
 
+    /**
+     * AJAX: Accept blood request
+     */
     public function accept_blood()
     {
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(403);
+        }
+
         if (!is_user_logged()) {
             return $this->response->setJSON([
                 'success' => false,
@@ -81,7 +103,8 @@ class Requests extends BaseController
             ]);
         }
 
-        $donationId = $this->request->getPost('have_have');
+        $donationId = $this->request->getPost('donation_have');
+
         if (!$donationId) {
             return $this->response->setJSON([
                 'success' => false,
@@ -89,8 +112,13 @@ class Requests extends BaseController
             ]);
         }
 
-        // TODO: save acceptance logic here
+        /**
+         * Acceptance logic can be added here later
+         * (claims table / notifications)
+         */
 
-        return $this->response->setJSON(['success' => true]);
+        return $this->response->setJSON([
+            'success' => true
+        ]);
     }
 }

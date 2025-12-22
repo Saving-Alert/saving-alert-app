@@ -25,7 +25,7 @@ $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
-$routes->setAutoRoute(false); // 🔒 IMPORTANT
+$routes->setAutoRoute(false); // 🔒 Disable auto-routing for security
 
 /*
 |--------------------------------------------------------------------------
@@ -60,8 +60,19 @@ $routes->post('request-blood/submit', 'RequestDonation::request_donation');
 | Donations
 |--------------------------------------------------------------------------
 */
-$routes->get('donations', 'Donation::index');
-$routes->post('donations/submit', 'SubmitDonation::index');
+$routes->get('donations', 'SubmitDonation::index');
+$routes->post('donations/submit', 'SubmitDonation::submit_donation');
+
+/*
+|--------------------------------------------------------------------------
+| Location
+|--------------------------------------------------------------------------
+*/
+$routes->get('location', 'Location::index');
+$routes->post('location/submit', 'Location::submit_location');
+$routes->post('location/verify-phone', 'Location::verify_phone');
+$routes->post('location/confirm-otp', 'Location::confirm_otp');
+$routes->post('location/save-name', 'Location::save_name_s');
 
 /*
 |--------------------------------------------------------------------------
@@ -73,7 +84,14 @@ $routes->get('logout', 'Logout::index');
 
 /*
 |--------------------------------------------------------------------------
-| Environment Routes
+| Tracking
+|--------------------------------------------------------------------------
+*/
+$routes->get('tracking', 'Tracking::index');
+
+/*
+|--------------------------------------------------------------------------
+| Environment-specific Routes
 |--------------------------------------------------------------------------
 */
 if (file_exists(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
