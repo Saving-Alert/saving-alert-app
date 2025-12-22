@@ -2,10 +2,13 @@
 
 namespace App\Controllers;
 
+use App\Controllers\BaseController;
+
 class Donations extends BaseController
-{   
-    public function __construct(){
-        helper("shuja");
+{
+    public function __construct()
+    {
+        helper('shuja');
     }
 
     public function index()
@@ -15,7 +18,5 @@ class Donations extends BaseController
         echo view('footer');
         echo view('scripts/login_jax');
         echo view('scripts/donation_page_script');
-
-
     }
 }

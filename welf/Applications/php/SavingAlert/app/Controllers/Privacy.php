@@ -6,10 +6,9 @@ class Privacy extends BaseController
 {
     public function index()
     {
-        echo view('header');
-        echo view('privacy_policy');
-        echo view('footer');
-        echo view('scripts/login_jax');
-        
+        return view('header')
+            . view('privacy_policy')
+            . view('footer')
+            . view('scripts/login_jax');
     }
 }
