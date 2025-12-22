@@ -49,6 +49,14 @@ $routes->post('requests/accept', 'Requests::accept_blood');
 
 /*
 |--------------------------------------------------------------------------
+| Blood Request Submission (Requester side)
+|--------------------------------------------------------------------------
+*/
+$routes->get('request-blood', 'RequestDonation::index');
+$routes->post('request-blood/submit', 'RequestDonation::request_donation');
+
+/*
+|--------------------------------------------------------------------------
 | Donations
 |--------------------------------------------------------------------------
 */

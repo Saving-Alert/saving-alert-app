@@ -1,78 +1,60 @@
 <?php
 
 namespace App\Controllers;
+
 use App\Controllers\BaseController;
 
 class SubmitDonation extends BaseController
-{   
-
-    public function __construct(){
-        helper("shuja");
+{
+    public function __construct()
+    {
+        helper('shuja');
     }
 
-
+    /**
+     * Load blood request page
+     */
     public function index()
-    {   
-
-        if(is_user_logged()){
-
-            if(user_phone_verified() && is_user_dynamic(front_user_id()) ){
-
-                echo view('header');
-                echo view('submit_donation');
-                echo view('footer');
-                echo view('scripts/submit_jax.php');
-
-            }else{
-
-                echo '<script>window.location.replace("'.base_url().'/Profile")</script>';
-
-            }
-
+    {
+        if (!is_user_logged()) {
+            return redirect()->to('/login');
         }
 
-            
-
-    }
-
-    public function submit_donation(){
-
-        if(is_user_logged() && is_user_dynamic(front_user_id()) ){
-
-            $postData = $this->request->getVar(null);
-
-            $location = "";
-
-            $location2 = "empty_image/empty.jpg";
-
-            if($postData["badu_have"] != "false"){
-
-                if($_FILES['file']['name'] != ''){
-                    $test = explode('.', $_FILES['file']['name']);
-                    $extension = end($test);
-                    $name = uniqid().rand(100,999).'.'.$extension;
-        
-                    $location = '/home/welf/domains/welfarearo/uploads/'.$name;
-        
-                    $location2 = $name;
-        
-                        if(move_uploaded_file($_FILES['file']['tmp_name'], $location)){
-        
-                        }
-                }
-
-            }
-
-            $front_uid = $this->session->get('front_id');
-    
-            $submit_mod = model("App\Models\Account\SubmitRequest", false);
-    
-            $ret_data = $submit_mod->submit_donation($postData, $location2, $front_uid);
-
-            echo json_encode($ret_data);
-
+        if (!user_phone_verified() || !is_user_dynamic(front_user_id())) {
+            return redirect()->to('/Profile');
         }
 
+        echo view('header');
+        echo view('submit_donation');   // blood request form view
+        echo view('footer');
+        echo view('scripts/submit_jax'); // JS loader (NO .php)
     }
 
-}
+    /**
+     * AJAX: Submit blood request
+     */
+    public function submit_donation()
+    {
+        // ❗ Block direct access
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(403);
+        }
+
+        if (!is_user_logged() || !is_user_dynamic(front_user_id())) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Unauthorized access'
+            ]);
+        }
+
+        // Get POST data safely
+        $postData = $this->request->getPost();
+
+        $location2 = 'empty_image/empty.jpg';
+
+        // File upload (optional)
+        if (isset($postData['badu_have']) && $postData['badu_have'] !== 'false') {
+
+            $file = $this->request->getFile('file');
+
+            if ($file && $file->isValid() && !$file->

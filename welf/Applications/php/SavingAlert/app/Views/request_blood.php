@@ -1,165 +1,94 @@
-<link rel="stylesheet" href="<?php echo base_url(); ?>/assets/css/dashbord_navitaion.css">
+<section class="bgc-f7 py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
 
+                <div class="card shadow">
+                    <div class="card-header bg-danger text-white">
+                        <h4 class="mb-0">Create Blood Request</h4>
+                    </div>
 
+                    <div class="card-body">
+                        <form id="submit_form" method="post">
 
+                            <div class="mb-3">
+                                <label class="form-label">Hospital / Organization</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="dontitile"
+                                       value="<?= esc(get_user_info(front_user_id())->name) ?>"
+                                       required>
+                            </div>
 
-	
-	<!-- Our Dashbord -->
-	<section class="our-dashbord dashbord bgc-f7 pb50">
-		<div class="container-fluid">
-			<div class="row">
-						
-					<div class="col-lg-3 col-xl-2 dn-992 pl0">
+                            <div class="mb-3">
+                                <label class="form-label">Blood Group</label>
+                                <select class="form-select" name="blod_group" required>
+                                    <option value="">Select</option>
+                                    <?php
+                                    $groups = ['A+','A-','B+','B-','AB+','AB-','O+','O-'];
+                                    foreach ($groups as $group):
+                                    ?>
+                                        <option value="<?= $group ?>"><?= $group ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
 
-						<div class="card" >
-							<div class="card-header">
-								<a href="<?php echo base_url(); ?>/Account">Account</a>
-							</div>
-							<?php require("account_menu.php"); ?>
-						</div>
+                            <div class="mb-3">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control"
+                                          name="dondescription"
+                                          rows="4"
+                                          placeholder="Patient condition, urgency, notes..."
+                                          required></textarea>
+                            </div>
 
-					</div>
+                            <div class="mb-3">
+                                <label class="form-label">Contact Phone</label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="don_pub_phone"
+                                       value="<?= esc(get_user_info(front_user_id())->phone_number) ?>"
+                                       required>
+                            </div>
 
-				<div class="col-lg-9 col-xl-10 maxw100flex-992">
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="dashboard_navigationbar dn db-992">
-							<?php require("account_mobile_menu.php"); ?>
-							</div>
-						</div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">District</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="main_area"
+                                           value="<?= esc(get_user_info(front_user_id())->district) ?>"
+                                           required>
+                                </div>
 
-					<form id="submit_form" method="post">
-							<div class="col-lg-12">
-								<div class="my_dashboard_review">
-									<div class="row">
-										<div class="col-lg-12">
-											<h4 class="mb30">Blood Request</h4>
-											<div class="my_profile_setting_input form-group">
-												<label for="propertyTitle">Hospital</label>
-												<input type="text" class="form-control" id="dontitile" name="dontitile" value="<?php echo get_user_info(front_user_id())->name; ?>">
-											</div>
-										</div>
-										
-										<div class="col-lg-12">
-											<div class="my_profile_setting_textarea">
-												<label for="propertyDescription">Blood Group</label>
-												<select class="form-select" id="blod_group" name="blod_group">
-													<option value="A+" selected>A+</option>
-													<option value="B+">B</option>
-													<option value="C+">B</option>
-													<option value="D+">C+</option>
-													</select>
-											</div>
-										</div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">City / Area</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           name="sub_area"
+                                           value="<?= esc(get_user_info(front_user_id())->city) ?>"
+                                           required>
+                                </div>
+                            </div>
 
+                            <div class="text-end mt-4">
+                                <button type="button"
+                                        class="btn btn-danger"
+                                        id="saveBtn">
+                                    Submit Blood Request
+                                </button>
+                            </div>
 
-										<div class="col-lg-12">
-											<div class="my_profile_setting_textarea">
-												<label for="propertyDescription">Description</label>
-												<textarea class="form-control" id="dondescription" name="dondescription" rows="7"></textarea>
-											</div>
-										</div>
+                        </form>
+                    </div>
+                </div>
 
-										
-										<div class="col-lg-4 col-xl-4">
-											<div class="my_profile_setting_input form-group">
-												<label for="propertyTitle">Hospital Phone Number</label>
-												<input type="text" class="form-control" id="don_pub_phone" name="don_pub_phone" value="<?php echo get_user_info(front_user_id())->phone_number; ?>">
-											</div>
-										</div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    const base_url = "<?= base_url() ?>";
+</script>
 
-										<div class="col-lg-4 col-xl-4">
-											<div class="my_profile_setting_input form-group">
-												<label for="formGroupExamplePrice">District</label>
-												<input type="text" class="form-control"  id="main_area" name="main_area" value="<?php echo get_user_info(front_user_id())->district; ?>">
-											</div>
-										</div>
-										<div class="col-lg-4 col-xl-4">
-											<div class="my_profile_setting_input form-group">
-												<label for="formGroupExampleArea">Area / City</label>
-												<input type="text" class="form-control"  id="sub_area" name="sub_area" value="<?php echo get_user_info(front_user_id())->city; ?>">
-											</div>
-										</div>
-
-
-										<div class="col-lg-6 col-xl-6" style="display:none;">
-											<div class="my_profile_setting_input ui_kit_select_search form-group">
-												<label>Type</label>
-												
-												<select class="selectpicker" data-live-search="true" data-width="100%" id="frofoodtypel" name="frofoodtypel" >
-													<option>Dry Foods</option>
-													<option>Coocked Foods</option>
-												</select>
-
-											</div>
-										</div>
-
-										<div class="col-lg-3 col-xl-3">
-											<div class="my_profile_setting_input ui_kit_select_search form-group">
-																							
-
-											</div>
-										</div>
-
-										<!-- <div class="col-lg-3 col-xl-3">
-											<div class="my_profile_setting_input ui_kit_select_search form-group">
-												<label>Quantitiy</label>
-												
-												<input type="text" class="form-control" id="quantity" name="quantity">
-												
-
-											</div>
-										</div>
-
-										<div class="col-lg-3 col-xl-3">
-											<div class="my_profile_setting_input ui_kit_select_search form-group">
-												<label>Unit</label>
-												
-												<input type="text" class="form-control" id="quantityname" name="quantityname">
-												
-
-											</div>
-										</div> -->
-
-
-										
-
-										
-										<div class="col-lg-6 col-xl-4" style="display:none;">
-											<div class="my_profile_setting_input form-group">
-												<label>Donation Image</label>
-												<div class="avatar-upload">
-													<div class="avatar-edit">
-														<input class="btn btn-thm" type="file" id="imageUpload" accept=".png, .jpg, .jpeg">
-														<label for="imageUpload"></label>
-													</div>
-													<div class="avatar-preview">
-														<div id="imagePreview"></div>
-														<input type="hidden" name="imgpath" id="imgpath">
-													</div>
-												</div>
-											</div>
-										</div>
-
-										<div class="col-xl-12">
-											<div class="my_profile_setting_input">
-												<button type="button" class="btn btn2 float-right" id="saveBtn">Submit</button>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</form>
-					
-				</div>
-
-
-			</div>
-		</div>
-	</section>
-<a class="scrollToHome" href="#"><i class="flaticon-arrows"></i></a>
-</div>
-
+<script src="<?= base_url('assets/js/request-blood.js') ?>"></script>
