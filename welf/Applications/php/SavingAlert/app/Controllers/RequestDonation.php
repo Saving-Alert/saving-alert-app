@@ -4,85 +4,57 @@ namespace App\Controllers;
 
 class RequestDonation extends BaseController
 {
-
-    public function __construct(){
-        helper("shuja");
-    }
-
     public function index()
     {
-
-        if(is_user_logged()){
-
-            if(user_phone_verified() && is_user_dynamic(front_user_id())  ){
-
-                $veri_pps = get_user_info(front_user_id())->reciver;
-
-                if($veri_pps == "Y"){
-
-                    echo view('header');
-                    echo view('request_blood');
-                    echo view('footer');
-                    echo view('scripts/request_jax.php');
-
-                }else{
-                    echo '<script>alert("You must be a registerd charitable org to submit donation requests"); history.back();</script>';
-                }
-
-
-            }
-
-
-
+        if (!is_user_logged()) {
+            return redirect()->to('/');
         }
 
-
-
-
-
-    }
-
-
-    public function request_donation(){
-
-        if(is_user_logged()){
-
-            $postData = $this->request->getVar(null);
-
-            $location = "";
-
-            $location2 = "empty_image/empty.jpg";
-
-            // if($postData["badu_have"] != "false"){
-
-            //     if($_FILES['file']['name'] != ''){
-            //         $test = explode('.', $_FILES['file']['name']);
-            //         $extension = end($test);
-            //         $name = uniqid().rand(100,999).'.'.$extension;
-
-            //         $location = '/home/welf/domains/welfarearo/uploads/'.$name;
-
-            //         $location2 = $name;
-
-            //             if(move_uploaded_file($_FILES['file']['tmp_name'], $location)){
-
-            //             }
-            //     }
-
-            // }
-
-            $front_uid = $this->session->get('front_id');
-
-            $submit_mod = model("App\Models\Account\DonationRequest", false);
-
-            $ret_data = $submit_mod->request_donation($postData, $location2, $front_uid);
-
-            echo json_encode($ret_data);
-
+        if (!user_phone_verified()) {
+            return redirect()->back()->with('error', 'Phone not verified');
         }
 
+        if (!is_user_dynamic(front_user_id())) {
+            return redirect()->back()->with('error', 'Unauthorized access');
+        }
+
+        $user = get_user_info(front_user_id());
+        if (!$user || $user->reciver !== 'Y') {
+            return redirect()->back()->with(
+                'error',
+                'You must be a registered charitable organization'
+            );
+        }
+
+        return view('header')
+            . view('request_blood')
+            . view('footer')
+            . view('scripts/request_jax');
     }
 
+    public function request_donation()
+    {
+        if (!is_user_logged()) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Unauthorized'
+            ]);
+        }
 
+        $postData = $this->request->getPost();
+        if (!$postData) {
+            return $this->response->setJSON([
+                'success' => false,
+                'message' => 'Invalid data'
+            ]);
+        }
 
+        $image = 'empty_image/empty.jpg';
+        $frontUserId = front_user_id();
+
+        $model = model('App\Models\Account\DonationRequest');
+        $result = $model->request_donation($postData, $image, $frontUserId);
+
+        return $this->response->setJSON($result);
+    }
 }
