@@ -8,7 +8,7 @@ $routes = Services::routes();
 
 /*
 |--------------------------------------------------------------------------
-| System Routes
+| Load System Routes
 |--------------------------------------------------------------------------
 */
 if (file_exists(SYSTEMPATH . 'Config/Routes.php')) {
@@ -35,6 +35,7 @@ $routes->setAutoRoute(false); // 🔒 Disable auto-routing for security
 $routes->get('/', 'Home::index');
 $routes->get('about', 'About::index');
 $routes->get('contact', 'Contact::index');
+$routes->post('contact/contact_xyz', 'Contact::contact_xyz');
 $routes->get('terms', 'Terms::index');
 $routes->get('privacy', 'Privacy::index');
 

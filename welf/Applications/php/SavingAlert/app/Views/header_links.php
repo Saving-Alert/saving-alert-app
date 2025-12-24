@@ -15,7 +15,7 @@
     </li>
 
     <li class="last">
-        <a href="<?php echo base_url() ?>/Contact"><span class="title">Contact</span></a>
+        <a href="<?php echo base_url() ?>/contact"><span class="title">Contact</span></a>
     </li>
 
     <?php
