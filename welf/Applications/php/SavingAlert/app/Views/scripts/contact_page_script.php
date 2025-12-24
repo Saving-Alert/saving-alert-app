@@ -1,68 +1,67 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+$(document).ready(function() {
 
-    $(document).on("click", "#btn_send_mes", function(){
+    const btnSend = $("#btn_send_mes");
 
-        let logged_in = false;
+    btnSend.on("click", function() {
+        const button = $(this);
+        button.prop("disabled", true);
 
+        // Collect form values
+        const from_email   = $("#form_email").val();
+        const from_phone   = $("#form_phone").val();
+        const from_subject = $("#form_subject").val();
+        const from_message = $("#form_message").val(); // Fixed
 
-
-        let from_email = $("#form_email").val();
-        let from_phone = $("#form_phone").val();
-        let from_subject = $("#form_subject").val();
-        let from_message = $("#form_email").val();
-
-        //alert(from_email);
-
-        $(this).prop("disabled", true);
+        // Basic validation
+        if (!from_email || !from_phone || !from_subject || !from_message) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Mandatory fields are missing!'
+            });
+            button.prop("disabled", false);
+            return;
+        }
 
         $.ajax({
-            url 	: '<?php echo base_url();?>/Contact/contact_xyz',
-            type 	: 'post',
-            data 	: $("#contact_form_1").serializeArray(),
+            url: '<?= base_url("contact/contact_xyz") ?>',
+            type: 'POST',
+            data: $("#contact_form_1").serialize(),
             dataType: "json",
-            cache   : false,
-            processData: true,
-            beforeSend:function(){
-                //$('#msg').html('Loading......');
-            },
-            success:function(data){
-
-                if(data.success){
-
+            cache: false,
+            success: function(data) {
+                if (data.success) {
                     Swal.fire(
                         'Done!',
-                        'Your message sent!',
+                        'Your message has been sent!',
                         'success'
                     ).then(() => {
-                        location.reload();;
+                        $("#contact_form_1")[0].reset();
+                        button.prop("disabled", false);
                     });
-
-                }else{
-
+                } else {
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
-                        text: 'Mandotory Feilds are missing!'
+                        text: 'Something went wrong, please check all fields.'
                     }).then(() => {
-                        $(this).prop("disabled", false);
+                        button.prop("disabled", false);
                     });
-
-
-
                 }
-
+            },
+            error: function() {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Server error, please try again later.'
+                }).then(() => {
+                    button.prop("disabled", false);
+                });
             }
-
         });
-
-
-
-
-
-
-
     });
-
+});
 </script>
