@@ -165,10 +165,10 @@
 					<div class="footer_contact_widget">
 						<h4>Contact Us</h4>
 						<ul class="list-unstyled">
-							<li><a href="#">akeela@evoluerit.com</a></li>
+							<li><a href="#">jinethc808@yahoo.com</a></li>
 							<li><a href="#">Project Saving Alert </a></li>
 							<li><a href="#">Colombo, Sri Lanka.</a></li>
-							<li><a href="#">+94 775731785</a></li>
+							<li><a href="#">+94 774383665</a></li>
 							
 						</ul>
 					</div>

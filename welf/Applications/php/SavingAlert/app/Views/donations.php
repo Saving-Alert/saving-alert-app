@@ -4,7 +4,7 @@ $db = \Config\Database::connect();
 
 $builder = $db->table("donation_table");
 $builder->select("*");
-$builder->where("active", "Y");
+$builder->where("active", "1");
 $builder->where("dontation_type", "D");
 $builder->orderBy('id', 'DESC');
 

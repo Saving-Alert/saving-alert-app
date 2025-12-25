@@ -80,8 +80,14 @@ $routes->post('location/save-name', 'Location::save_name_s');
 | Auth
 |--------------------------------------------------------------------------
 */
-$routes->get('login', 'Login::index');
+$routes->get('login', 'Login\Login::index');
+$routes->post('login', 'Login\Login::index');
+
+$routes->get('login/verify', 'Login\Verify::index');
+$routes->post('login/verify', 'Login\Verify::index');
+
 $routes->get('logout', 'Logout::index');
+
 
 /*
 |--------------------------------------------------------------------------
