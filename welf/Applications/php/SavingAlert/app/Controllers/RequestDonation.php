@@ -12,7 +12,7 @@ class RequestDonation extends BaseController
     public function index()
     {
         if (!is_user_logged()) {
-            return redirect()->to('/');
+           return redirect()->to(base_url('login'));
         }
 
         if (!user_phone_verified()) {
@@ -35,6 +35,7 @@ class RequestDonation extends BaseController
 
         return view('header')
             . view('request_blood')
+            . view('submit_donation')
             . view('footer')
             . view('scripts/request_jax');
     }

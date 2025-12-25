@@ -4,14 +4,24 @@
         <!-- Level Two-->
     </li>
     <li>
-        <!-- <a href="<?php //echo base_url() ?>/Donations"><span class="title">Donations</span></a> -->
+        <a href="<?php //echo base_url() ?>/Donations"><span class="title">Donations</span></a>
 
         <!-- Level Two-->
     </li>
 
     <li>
-        <a href="<?= base_url('requests') ?>"><span class="title">Blood Requests</span></a>
+        <a href="<?= base_url('requests') ?>"><span class="title">Blood Requests List</span></a>
 
+    </li>
+
+    <?php $session = session(); ?>
+    <li>
+        <a href="<?= base_url('login') ?>"
+        onclick="<?php if(!$session->get('front_logged_in')): ?>
+            alert('Please login first');
+        <?php endif; ?>">
+            <span class="title">Request Blood</span>
+        </a>
     </li>
 
     <li class="last">

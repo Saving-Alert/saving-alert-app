@@ -53,7 +53,7 @@ class DonationRequest extends Model{
             if($title == "") $ret_data["dontitile"] = false;
             if($description == "") $ret_data["dondescription"] = false;
             //if($blood_group == "") $ret_data["blood_group"] = false;
-            if($title == "") $ret_data["frofoodtypel"] = false;
+            if($title == "") $ret_data["blood_group"] = false;
             if($title == "") $ret_data["main_area"] = false;    
             if($title == "") $ret_data["sub_area"] = false;
             if($title == "") $ret_data["don_pub_phone"] = false;

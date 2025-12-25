@@ -38,7 +38,7 @@
                     <h4>Contact Us</h4>
                     <div class="content_list mb-3">
                         <h5>Phone</h5>
-                        <p>775731785</p>
+                        <p>774383665</p>
                     </div>
                     <h5>Follow Us</h5>
                     <ul class="contact_form_social_area list-inline">

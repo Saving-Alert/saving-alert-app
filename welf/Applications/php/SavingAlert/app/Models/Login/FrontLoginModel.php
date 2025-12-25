@@ -1,120 +1,64 @@
 <?php
-
 namespace App\Models;
 
 use CodeIgniter\Model;
 
 class FrontLoginModel extends Model
 {
-    function login_validate($email){
+    protected $table = 'front_users';
 
-        $data = [];
+    public function login_validate($email)
+    {
+        $builder = $this->db->table($this->table);
+        $user = $builder->where('email', $email)
+                        ->where('active', 1)
+                        ->get()
+                        ->getRow();
 
-        $builder = $this->db->table("front_users");
-        $builder->select("*");
-        $builder->where("email", $email);
-        $builder->where("active", "Y");
-        $query = $builder->get();
+        $otp = random_int(100000, 999999);
 
-        $rand_int_six = random_int(100000, 999999);
-
-        if($query->getNumRows() >= 1){
-
-            $row = $query->getRow();
-
-            $dyn = false;
-
-            if($row->dynamic_login == "Y") {
-                $dyn = true; 
-                $this->send_mail($email, $rand_int_six);
+        if ($user) {
+            if ($user->dynamic_login == 1) {
+                $builder->where('id', $user->id)
+                        ->update(['dynamic_code' => (string)$otp]);
             }
 
-            $data["valid"] = true; 
-            $data["id"] = $row->id;
-            $data["email"] = $row->email;
-            $data["active"] = $row->active; 
-            $data["dyanmic"] = $dyn;
-
-            $builder->set('dynamic_code', $rand_int_six, false);
-            $builder->where('id', $row->id);
-            $builder->update();
-            
-
-        }else{
-            
-            $data_ins = [
-                'email' => $email,
-                'active'  => 'Y',
-                'dynamic_login' => 'Y',
-                'dynamic_code' => $rand_int_six,
+            return [
+                'valid' => true,
+                'id' => $user->id,
+                'email' => $user->email,
+                'active' => $user->active,
+                'dyanmic' => true
             ];
-            
-            $this->db->table('front_users')->insert($data_ins);
-
-            $data["valid"] = true;
-            $data["id"] = $this->db->insertID();
-            $data["email"] = $email;
-            $data["active"] = "Y";
-            $data["dyanmic"] = true; 
-
-            $this->send_mail($email, $rand_int_six);
-
         }
 
-        
-        return $data;
+        // New user
+        $builder->insert([
+            'email' => $email,
+            'active' => 1,
+            'dynamic_login' => 1,
+            'dynamic_code' => (string)$otp,
+        ]);
 
+        return [
+            'valid' => true,
+            'id' => $this->db->insertID(),
+            'email' => $email,
+            'active' => 1,
+            'dyanmic' => true
+        ];
     }
 
-    function login_confirm($password, $front_id, $front_login){
-        
-        $builder = $this->db->table("front_users");
-        $builder->select("*");
-        $builder->where("id", $front_id);
-        $builder->where("active", "Y");
-        $query = $builder->get();
+    public function login_confirm($otp, $id)
+    {
+        $user = $this->db->table($this->table)
+                         ->where('id', $id)
+                         ->where('active', 1)
+                         ->get()
+                         ->getRow();
 
-        if($query->getNumRows() >= 1){
-
-            $row = $query->getRow();
-
-            $data = [];
-
-
-            if($front_login){
-                if($row->dynamic_code == $password){
-                    $data["valid"] = true;
-                }else{
-                    $data["valid"] = false;
-                }
-
-            }else{
-                //write bcrypt stuff here
-            }
-
-            return $data;
-        }
-
-
-        
+        return ['valid' => $user && $user->dynamic_code === $otp];
     }
+}
 
-    function send_mail($to, $key){
-
-        $email = \Config\Services::email();
-        $email->setTo($to);
-        $email->setFrom('shuja@kuppiya.lk', 'OTP Verification');
-
-        $subject = "Confirm Registration";
-
-        $message = 'Please enter the 6 digit OTP to verify your email - ' . $key;
-
-        
-        $email->setSubject($subject);
-        $email->setMessage($message);
-
-        $email->send(); 
-		
-
-    }
 }
