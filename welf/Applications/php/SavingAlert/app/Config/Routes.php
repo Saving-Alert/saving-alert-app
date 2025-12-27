@@ -80,13 +80,16 @@ $routes->post('location/save-name', 'Location::save_name_s');
 | Auth
 |--------------------------------------------------------------------------
 */
+
 $routes->get('login', 'Login\Login::index');
-$routes->post('login', 'Login\Login::index');
+$routes->post('login/send-otp', 'Login\Login::sendOtp');
 
-$routes->get('login/verify', 'Login\Verify::index');
-$routes->post('login/verify', 'Login\Verify::index');
+$routes->get('login/verify', 'Login\Login::verify');
+$routes->post('login/confirm', 'Login\Login::confirmOtp');
 
+$routes->get('request-blood', 'RequestDonation::index');
 $routes->get('logout', 'Logout::index');
+
 
 
 /*

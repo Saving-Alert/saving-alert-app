@@ -76,41 +76,39 @@
 		
 		<nav id="menu" class="stylehome1">
 			<ul>
-				<li><span><a href="<?php echo base_url(); ?>">Home</a></span></li>
+				<li><span><a href="<?= base_url() ?>">Home</a></span></li>
+				<li><span><a href="<?= base_url('donations') ?>">Donations</a></span></li>
+				<li><span><a href="<?= base_url('requests') ?>">Blood Requests List</a></span></li>
 
-				<li><span><a href="<?php echo base_url(); ?>/Donations">Donations</a></span></li>
+				<!-- REQUEST BLOOD -->
+				<?php if (session()->get('front_logged_in')): ?>
+					<li><span><a href="<?= base_url('request-blood') ?>">Request Blood</a></span></li>
+				<?php else: ?>
+					<li>
+						<span>
+							<a href="<?= base_url('login') ?>" onclick="alert('Please login to request blood');">
+								Request Blood
+							</a>
+						</span>
+					</li>
+				<?php endif; ?>
 
-				
-				<li><span>Contact</span></li>
+				<li><span><a href="<?= base_url('contact') ?>">Contact</a></span></li>
 
-				<?php
-
-						$log_btn = '<li><a href="#" data-toggle="modal" data-target=".bd-example-modal-lg"> <span>Login/Register</span></a></li>';
-
-						if(isset($_SESSION['front_logged_in'])){
-							if($_SESSION['front_logged_in']){
-								
-								echo '
-
-								<li><span>Account</span>
-									<ul>
-										<li><a href="'.base_url().'/Account">Account</a></li>
-										<li><a href="'.base_url().'/Logout">Logout</a></li>
-									</ul>
-								</li>
-								';
-
-							}else{
-								echo $log_btn;
-							}
-
-						}else{
-							echo $log_btn;
-						}
-
-					?>
-				
+				<!-- AUTH -->
+				<?php if (session()->get('front_logged_in')): ?>
+					<li>
+						<span>Account</span>
+						<ul>
+							<li><a href="<?= base_url('account') ?>">Account</a></li>
+							<li><a href="<?= base_url('logout') ?>">Logout</a></li>
+						</ul>
+					</li>
+				<?php else: ?>
+					<li><span><a href="<?= base_url('login') ?>">Login / Register</a></span></li>
+				<?php endif; ?>
 			</ul>
 		</nav>
+
 
 	</div>

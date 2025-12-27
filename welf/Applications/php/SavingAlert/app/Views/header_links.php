@@ -1,61 +1,31 @@
-<ul id="respMenu" class="ace-responsive-menu text-right" data-menu-style="horizontal">
-    <li>
-        <a href="<?php echo base_url() ?>"><span class="title">Home</span></a>
-        <!-- Level Two-->
-    </li>
-    <li>
-        <a href="<?php //echo base_url() ?>/Donations"><span class="title">Donations</span></a>
+<?php $session = session(); ?>
 
-        <!-- Level Two-->
-    </li>
+<ul id="respMenu" class="ace-responsive-menu text-right">
 
+    <li><a href="<?= base_url() ?>">Home</a></li>
+    <li><a href="<?= base_url('donations') ?>">Donations</a></li>
+    <li><a href="<?= base_url('requests') ?>">Blood Requests List</a></li>
+
+    <!-- Request Blood -->
     <li>
-        <a href="<?= base_url('requests') ?>"><span class="title">Blood Requests List</span></a>
-
-    </li>
-
-    <?php $session = session(); ?>
-    <li>
-        <a href="<?= base_url('login') ?>"
-        onclick="<?php if(!$session->get('front_logged_in')): ?>
-            alert('Please login first');
-        <?php endif; ?>">
-            <span class="title">Request Blood</span>
+        <a href="<?= base_url('login?redirect=request-blood') ?>">
+            Request Blood
         </a>
     </li>
 
-    <li class="last">
-        <a href="<?php echo base_url() ?>/contact"><span class="title">Contact</span></a>
-    </li>
+    <li><a href="<?= base_url('contact') ?>">Contact</a></li>
 
-    <?php
-
-    $log_btn = '<li class="list-inline-item list_s"><a href="#" class="btn flaticon-user" data-toggle="modal" data-target=".bd-example-modal-lg"> <span class="dn-lg">Login/Register</span></a></li>';
-
-    if(isset($_SESSION['front_logged_in'])){
-        if($_SESSION['front_logged_in']){
-
-            echo '
-								<li>
-									<a href="'.base_url().'/Account"><span class="title">Account</span></a>
-									<ul>
-										<li><a href="'.base_url().'/Account">Account</a></li>
-										<li><a href="'.base_url().'/Logout">Logout</a></li>
-										
-									</ul>
-								</li>
-								';
-
-        }else{
-            echo $log_btn;
-        }
-
-    }else{
-        echo $log_btn;
-    }
-
-    ?>
-
-    <!-- <li class="list-inline-item add_listing head_btn_submit_don"><a href="#" id="head_btn_submit_don"><span class="flaticon-plus"></span><span class="dn-lg" > Submit Donation</span></a></li> -->
+    <?php if ($session->get('front_logged_in')): ?>
+        <li>
+            <a href="<?= base_url('account') ?>">Account</a>
+            <ul>
+                <li><a href="<?= base_url('logout') ?>">Logout</a></li>
+            </ul>
+        </li>
+    <?php else: ?>
+        <li>
+            <a href="<?= base_url('login') ?>">Login / Register</a>
+        </li>
+    <?php endif; ?>
 
 </ul>
