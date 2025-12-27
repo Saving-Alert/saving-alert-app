@@ -1,15 +1,7 @@
-<?php
-$session = session();
-
-if (!$session->get('front_valid')) {
-    return redirect()->to(base_url('login'));
-}
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Verify Login</title>
+    <title>Verify OTP</title>
     <link rel="stylesheet" href="<?= base_url('assets/css/bootstrap.min.css') ?>">
 </head>
 <body>
@@ -18,21 +10,21 @@ if (!$session->get('front_valid')) {
     <div class="row justify-content-center">
         <div class="col-md-5">
 
-            <h4 class="text-center mb-4">
-                Enter Verification Code
-            </h4>
+            <h4 class="text-center mb-4">Enter OTP</h4>
 
-            <form method="post" action="<?= base_url('login/verify') ?>">
-                <div class="form-group">
-                    <input type="text"
-                           name="user_password"
-                           class="form-control"
-                           placeholder="6-digit OTP"
-                           required>
-                </div>
 
-                <button type="submit" class="btn btn-success btn-block mt-3">
-                    Verify & Login
+            <p class="text-danger text-center">
+                TEST OTP: <?= session()->get('test_otp') ?>
+            </p>
+            <form method="post" action="<?= base_url('login/confirm') ?>">
+                <input type="text"
+                       name="otp"
+                       class="form-control"
+                       placeholder="6-digit OTP"
+                       required>
+
+                <button type="submit" class="btn btn-success mt-3">
+                    Verify
                 </button>
             </form>
 

@@ -1,64 +1,78 @@
 <?php
-namespace App\Models;
+
+namespace App\Models\Login;
 
 use CodeIgniter\Model;
 
 class FrontLoginModel extends Model
 {
-    protected $table = 'front_users';
+    protected $table      = 'front_users';
+    protected $primaryKey = 'id';
+    protected $allowedFields = [
+        'mobile',
+        'email',
+        'dynamic_code',
+        'otp_expires_at',
+        'dynamic_login',
+        'active'
+    ];
 
-    public function login_validate($email)
+    /**
+     * Generate & send OTP via SMS
+     */
+    public function login_validate(string $mobile): array
     {
-        $builder = $this->db->table($this->table);
-        $user = $builder->where('email', $email)
-                        ->where('active', 1)
-                        ->get()
-                        ->getRow();
-
         $otp = random_int(100000, 999999);
+        $expiresAt = date('Y-m-d H:i:s', time() + 300); // 5 minutes
+
+        $user = $this->where('phone', $mobile)
+                     ->where('active', 1)
+                     ->first();
 
         if ($user) {
-            if ($user->dynamic_login == 1) {
-                $builder->where('id', $user->id)
-                        ->update(['dynamic_code' => (string)$otp]);
-            }
+            $this->update($user['id'], [
+                'dynamic_code'    => $otp,
+                'otp_expires_at'  => $expiresAt,
+                'dynamic_login'   => 1
+            ]);
+
+            send_mobile_otp($mobile, $otp);
 
             return [
-                'valid' => true,
-                'id' => $user->id,
-                'email' => $user->email,
-                'active' => $user->active,
-                'dyanmic' => true
+                'valid'   => true,
+                'user_id' => $user['id'],
+                'mobile'  => $mobile
             ];
         }
 
         // New user
-        $builder->insert([
-            'email' => $email,
-            'active' => 1,
-            'dynamic_login' => 1,
-            'dynamic_code' => (string)$otp,
+        $this->insert([
+            'phone'           => $mobile,
+            'active'           => 1,
+            'dynamic_login'    => 1,
+            'dynamic_code'     => $otp,
+            'otp_expires_at'   => $expiresAt
         ]);
 
+        send_mobile_otp($mobile, $otp);
+
         return [
-            'valid' => true,
-            'id' => $this->db->insertID(),
-            'email' => $email,
-            'active' => 1,
-            'dyanmic' => true
+            'valid'   => true,
+            'user_id' => $this->insertID(),
+            'mobile'  => $mobile
         ];
     }
 
-    public function login_confirm($otp, $id)
+    /**
+     * Verify OTP
+     */
+    public function verify_otp(int $userId, string $otp): bool
     {
-        $user = $this->db->table($this->table)
-                         ->where('id', $id)
-                         ->where('active', 1)
-                         ->get()
-                         ->getRow();
+        $user = $this->where('id', $userId)
+                     ->where('dynamic_code', $otp)
+                     ->where('otp_expires_at >=', date('Y-m-d H:i:s'))
+                     ->first();
 
-        return ['valid' => $user && $user->dynamic_code === $otp];
+        return (bool) $user;
     }
-}
-
 }

@@ -1,18 +1,18 @@
 <?php
 
-function send_mobile_otp(string $mobile_number): void
-{
-    if (strlen($mobile_number) !== 10) return;
+// function send_mobile_otp(string $mobile_number): void
+// {
+//     if (strlen($mobile_number) !== 10) return;
 
-    $otp = random_int(100000, 999999);
-    session()->set('mobile_otp', $otp);
+//     $otp = random_int(100000, 999999);
+//     session()->set('mobile_otp', $otp);
 
-    $user = getenv('SMS_USER');
-    $pass = getenv('SMS_PASS');
+//     $user = getenv('SMS_USER');
+//     $pass = getenv('SMS_PASS');
 
-    $url = "https://gateway.nixilo.com/sms.php?user={$user}&pass={$pass}&phone={$mobile_number}&message={$otp}";
-    @file_get_contents($url);
-}
+//     $url = "https://gateway.nixilo.com/sms.php?user={$user}&pass={$pass}&phone={$mobile_number}&message={$otp}";
+//     @file_get_contents($url);
+// }
 
 function get_cur_otp(): ?int
 {
